@@ -1,1 +1,1 @@
-# ai_generator
+# ai_minter
