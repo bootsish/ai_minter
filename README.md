@@ -1,6 +1,6 @@
 # AI NFT Minter
 
-The purpose of this project is to allow the user to mint an AI generated image using ERC 721 protocols. The application also allows for the user to add new appraisals on specific minted images.
+The purpose of this project is to allow the user to mint an AI generated image using ERC 721 protocols. The application also allows for the user to add new appraisals on specific minted images. ***This image is AI generated!***
 
 ![AI](resources/ai.png)
 
