@@ -161,3 +161,10 @@ if st.button("Get Appraisal History"):
             st.image(f"https://ipfs.io/ipfs/{imageLink}")            
     else:
         st.write("This artwork has no new appraisals")
+
+################################################################################
+# Transfer Token
+################################################################################
+
+if st.button("Transfer Token"):
+    safe_transfer = contract.functions.safetransferfrom()
