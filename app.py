@@ -162,9 +162,19 @@ if st.button("Get Appraisal History"):
     else:
         st.write("This artwork has no new appraisals")
 
+
+
 ################################################################################
 # Transfer Token
 ################################################################################
 
+st.markdown("## Transfer Token")
+
+st.markdown("### Transfer to:")
+receiver_address = st.selectbox("Select a Receiving Account", options=accounts)
+
+st.markdown("### Token ID to transfer:")
+tokenId = st.selectbox("Choose a Token to Send", options=list(range(totalTokenSupply)))
+
 if st.button("Transfer Token"):
-    safe_transfer = contract.functions.safetransferfrom()
+    safe_transfer = contract.functions.safetransferfrom().transact({"from": address, "to": receiver_address, "tokenId": tokenId})
