@@ -183,4 +183,6 @@ st.markdown("### Token ID to transfer")
 tokenId = st.selectbox("Choose a Token to Send", options=list(range(totalTokenSupply)))
 
 if st.button("Transfer Token"):
-    safe_transfer = contract.functions.safeTransferFrom({"from":address, "to":receiver_address, "tokenId":tokenId}).transact({"from":address})
+    safe_transfer = contract.functions.safeTransferFrom(address, receiver_address, tokenId).transact({"from":address})
+    st.balloons()
+    st.write(f"Successful transfer of tokenID: {tokenId}, to receiving address: {receiver_address}, from address: {address}")
