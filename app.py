@@ -4,11 +4,9 @@ from web3 import Web3
 from pathlib import Path
 from dotenv import load_dotenv
 import streamlit as st
-
-from pinata import pinFiletoIPFS, pinJSONtoIPFS, convertDatatoJSON
-
+from qualifier.utils.pinata import pinFiletoIPFS, pinJSONtoIPFS, convertDatatoJSON
+from qualifier.utils.openai import main
 load_dotenv()
-
 w3 = Web3(Web3.HTTPProvider(os.getenv("WEB_PROVIDER_URI")))
 
 
