@@ -29,8 +29,11 @@ contract artRegistry is ERC721Full {
                                         _mint(owner,tokenID);
                                         _setTokenURI(tokenID, tokenURI);
                                         artCollection[tokenID] = ArtWork(name, artist, appraisalValue, tokenJSON);
+                                        emit Register(owner, name, artist, appraisalValue, tokenURI, tokenJSON);
                     return tokenID;   
     }
+
+    event Register (address owner, string name, string artist, uint apprasalValue, string tokenURI, string tokenJSON);
 
     function newAppraisal(
                             uint tokenID,

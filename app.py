@@ -135,7 +135,7 @@ if st.button("New Appraisal"):
 
 st.markdown("## Appraisal History")
 
-tokenID = st.number_input("ID of ArtWork", value = 0, step = 1)
+tokenID = st.selectbox("ID of Artwork", options=list(range(totalTokenSupply)))
 
 if st.button("Get Appraisal History"):
     appraisalFilter = contract.events.Appraisal.createFilter(fromBlock = 0, argument_filters = {"tokenID": tokenID})
@@ -161,3 +161,28 @@ if st.button("Get Appraisal History"):
             st.image(f"https://ipfs.io/ipfs/{imageLink}")            
     else:
         st.write("This artwork has no new appraisals")
+
+
+
+################################################################################
+# Transfer Token
+################################################################################
+
+st.markdown("## Transfer Token")
+
+tokenId = st.selectbox("Which token would you like to owner check?", options=list(range(totalTokenSupply)))
+
+if st.button("Check Token Owner"):
+    owner_check = contract.functions.ownerOf(tokenId).call()
+    st.write(f"Address: {owner_check}, is the owner of tokenID: {tokenId} at contract address: {contract.address}.")
+
+st.markdown("### Transfer to")
+receiver_address = st.selectbox("Select a Receiving Account", options=accounts)
+
+st.markdown("### Token ID to transfer")
+tokenId = st.selectbox("Choose a Token to Send", options=list(range(totalTokenSupply)))
+
+if st.button("Transfer Token"):
+    safe_transfer = contract.functions.safeTransferFrom(address, receiver_address, tokenId).transact({"from":address})
+    st.balloons()
+    st.write(f"Successful transfer of tokenID: {tokenId}, to receiving address: {receiver_address}, from address: {address}")
