@@ -1,13 +1,13 @@
 # Imports
 import os
 import openai
-import sys
-import pandas as pd
-import numpy as np 
+#import sys
+#import pandas as pd
+#import numpy as np 
 import requests
-from io import BytesIO
-from glob import glob
-from PIL import Image, ImageEnhance 
+#from io import BytesIO
+#from glob import glob
+#from PIL import Image, ImageEnhance 
 import streamlit as st
 from dotenv import load_dotenv
 load_dotenv()
@@ -20,8 +20,6 @@ openai.organization = os.getenv("OPENAI_ORG")
 # Dall-E API endpoint 
 # ## DALLE is openai just FYI
 DALLE_ENDPOINT = "https://api.openai.com/v1/images/generations"
-
-
 
 # Make a request to the Dall-E API
 def generate_image(prompt):
@@ -60,4 +58,3 @@ def main():
 
 if __name__ == "__main__":
   main()
-
