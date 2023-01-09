@@ -4,7 +4,7 @@ from web3 import Web3
 from pathlib import Path
 from dotenv import load_dotenv
 import streamlit as st
-
+from openai import generate_image
 from pinata import pinFiletoIPFS, pinJSONtoIPFS, convertDatatoJSON
 
 load_dotenv()
@@ -68,7 +68,10 @@ st.write("Choose an account to start")
 accounts = w3.eth.accounts
 
 address = st.selectbox("Select an Account", options=accounts)
-
+prompt = st.text_input("🖼 Tell me what to make for you. Click enter to show the image")
+if st.button("Generate Image "):
+    image_url = generate_image(prompt)
+    st.image(image_url, width=400)
 
 
 ################################################################################
