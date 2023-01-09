@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import streamlit as st
 from qualifier.utils.pinata import pinFiletoIPFS, pinJSONtoIPFS, convertDatatoJSON
 from qualifier.utils.openai import generate_image
+from PIL import Image 
 load_dotenv()
 w3 = Web3(Web3.HTTPProvider(os.getenv("WEB_PROVIDER_URI")))
 
@@ -67,11 +68,16 @@ accounts = w3.eth.accounts
 
 address = st.selectbox("Select an Account", options=accounts)
 
-
 prompt = st.text_input("🖼 Tell me what to make for you. Click enter to show the image")
+
+image = "empty"
+
 if st.button("Generate Image "):
     image_url = generate_image(prompt)
     image = st.image(image_url, width=400)
+
+    if st.button("Save Image?"):
+        ""
 
 
 ################################################################################
@@ -83,8 +89,9 @@ st.markdown("## Register a New Artwork")
 name = st.text_input("Enter a name for the artwork")
 artist = st.text_input("Enter an artist name for the artwork")
 appraisalValue = st.text_input("Enter an appraisal value for the artwork")
+#file = st.file_uploader("Upload Your Art", type = ["jpg", "jpeg","png"])
+file = image
 
-file = st.file_uploader("Upload Your Art", type = ["jpg", "jpeg","png"])
 
 if st.button("Register Artwork"):
     JSONIPFShash, tokenJSON = pinArtWork(name, file)
