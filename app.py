@@ -62,7 +62,7 @@ def pinAppraisal(content):
 # frontend
 ################################################################################
 
-st.title("Art Registry Appraisal")
+st.title("AI")
 st.write("Choose an account to start")
 
 accounts = w3.eth.accounts
@@ -71,7 +71,9 @@ address = st.selectbox("Select an Account", options=accounts)
 prompt = st.text_input("🖼 Tell me what to make for you. Click enter to show the image")
 if st.button("Generate Image "):
     image_url = generate_image(prompt)
-    st.image(image_url, width=400)
+    image = st.image(image_url, width=400)
+    
+    
 
 
 ################################################################################
