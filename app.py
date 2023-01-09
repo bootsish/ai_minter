@@ -72,7 +72,7 @@ prompt = st.text_input("🖼 Tell me what to make for you. Click enter to show t
 
 image = "empty"
 
-if st.button("Generate Image "):
+if st.button("Generate Image"):
     image_url = generate_image(prompt)
     image = st.image(image_url, width=400)
 
