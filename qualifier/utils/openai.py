@@ -78,10 +78,3 @@ if __name__ == "__main__":
 
 
 
-
-"""
-    if st.button("Save Image?"):
-
-        with Image.new(img_data) as im:
-            im.save("./resources/", "JPEG")
-"""

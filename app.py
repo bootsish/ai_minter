@@ -91,6 +91,8 @@ if st.button("Generate Image"):
     st.image(img_data)
     st.write(imageLink)
 
+    if st.button("Save Image?"):
+        ""
 
 
 ################################################################################
