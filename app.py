@@ -1,4 +1,3 @@
-import openai
 import os
 import requests
 import json
