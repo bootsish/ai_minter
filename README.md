@@ -27,7 +27,7 @@ conda update conda
 
 ## Usage
 
-First things first, the ArtRegistry contract will need to be deployed to your local Etherum network (Ganache). This is done by using Ganache and Remix. Make sure the Web provider's URI in your .env matches the Ganache network and deploy via Remix. Once deployed, copy and paste the smart contract address inside your .env. OpenAI and Pinata keys and secrets will need to be placed inside .env, as well. 
+First things first, the ArtRegistry contract will need to be deployed to your local Ethereum network (Ganache). This is done by using Ganache and Remix. Make sure the Web provider's URI in your .env matches the Ganache network and deploy via Remix. Once deployed, copy and paste the smart contract address inside your .env. OpenAI and Pinata keys and secrets will need to be placed inside .env, as well.
 
 You are now able to run the command below:
 
@@ -35,7 +35,7 @@ You are now able to run the command below:
 streamlit run app.py
 ```
 
-Inside the app.py, you are able to prompt the generative model for the NFT you would like to mint. You can then proceed to mint and even tranfer the token to a friend.
+Inside the app.py, you are able to prompt the generative model for the NFT you would like to mint. Once the image generates you will have to manually save to the desired location. You can then proceed to drag and drop or upload to mint and even transfer the token to a friend.
 
 ## Contributors
 
