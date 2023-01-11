@@ -176,6 +176,18 @@ if st.button("Get Appraisal History"):
     else:
         st.write("This artwork has no new appraisals")
 
+################################################################################
+# Ownership Check
+################################################################################
+
+st.sidebar.markdown("## Ownership Check")
+
+tokenId = st.sidebar.selectbox("Which token would you like to owner check?", options=list(range(totalTokenSupply)))
+
+if st.sidebar.button("Check Token Owner"):
+    owner_check = contract.functions.ownerOf(tokenId).call()
+    st.sidebar.write(f"Address: {owner_check}, is the owner of tokenID: {tokenId} at contract address: {contract.address}.")
+
 
 
 ################################################################################
@@ -184,16 +196,8 @@ if st.button("Get Appraisal History"):
 
 st.sidebar.markdown("## Transfer Token")
 
-tokenId = st.sidebar.selectbox("Which token would you like to owner check?", options=list(range(totalTokenSupply)))
-
-if st.sidebar.button("Check Token Owner"):
-    owner_check = contract.functions.ownerOf(tokenId).call()
-    st.sidebar.write(f"Address: {owner_check}, is the owner of tokenID: {tokenId} at contract address: {contract.address}.")
-
-st.sidebar.markdown("### Transfer to")
 receiver_address = st.sidebar.selectbox("Select a Receiving Account", options=accounts)
 
-st.sidebar.markdown("### Token ID to transfer")
 tokenId = st.sidebar.selectbox("Choose a Token to Send", options=list(range(totalTokenSupply)))
 
 if st.sidebar.button("Transfer Token"):
