@@ -16,6 +16,7 @@ w3 = Web3(Web3.HTTPProvider(os.getenv("WEB_PROVIDER_URI")))
 ################################################################################
 # loading the contract
 ################################################################################
+
 @st.cache(allow_output_mutation=True)
 def load_contract():
     
@@ -73,7 +74,6 @@ prompt = st.text_input("🖼 Tell me what to make for you. Click enter to show t
 
 image = "empty"
 
-
 if st.button("Generate Image"):
 
     imageLink = getImage(prompt)
@@ -87,6 +87,7 @@ if st.button("Generate Image"):
         ""
 
 
+
 ################################################################################
 # register your art
 ################################################################################
@@ -98,7 +99,6 @@ artist = st.text_input("Enter an artist name for the artwork")
 appraisalValue = st.text_input("Enter an appraisal value for the artwork")
 file = st.file_uploader("Upload Your Art", type = ["jpg", "jpeg","png"])
 #file = image
-
 
 if st.button("Register Artwork"):
     JSONIPFShash, tokenJSON = pinArtWork(name, file)
@@ -114,7 +114,6 @@ if st.button("Register Artwork"):
     st.write("Please view the following links for IPFS Gateway")
     st.markdown(f"[IPFS Gateway Link](https://ipfs.io/ipfs/{JSONIPFShash})")    
     st.markdown(f"[IPFS Image Link](https://ipfs.io/ipfs/{IPFSfilehash})")
-    
     
     
     
