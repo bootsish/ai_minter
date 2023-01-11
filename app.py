@@ -99,6 +99,7 @@ file = st.file_uploader("Upload Your Art", type = ["jpg", "jpeg","png"])
 
 if st.button("Register Artwork"):
     JSONIPFShash, tokenJSON = pinArtWork(name, file)
+    #JSONIPFShash, tokenJSON = pinArtWork(name, image_data(imageLink, img_data))
     tokenURI = f"ipfs://{JSONIPFShash}"
     
     IPFSfilehash = tokenJSON["image"]
@@ -181,21 +182,21 @@ if st.button("Get Appraisal History"):
 # Transfer Token
 ################################################################################
 
-st.markdown("## Transfer Token")
+st.sidebar.markdown("## Transfer Token")
 
-tokenId = st.selectbox("Which token would you like to owner check?", options=list(range(totalTokenSupply)))
+tokenId = st.sidebar.selectbox("Which token would you like to owner check?", options=list(range(totalTokenSupply)))
 
-if st.button("Check Token Owner"):
+if st.sidebar.button("Check Token Owner"):
     owner_check = contract.functions.ownerOf(tokenId).call()
-    st.write(f"Address: {owner_check}, is the owner of tokenID: {tokenId} at contract address: {contract.address}.")
+    st.sidebar.write(f"Address: {owner_check}, is the owner of tokenID: {tokenId} at contract address: {contract.address}.")
 
-st.markdown("### Transfer to")
-receiver_address = st.selectbox("Select a Receiving Account", options=accounts)
+st.sidebar.markdown("### Transfer to")
+receiver_address = st.sidebar.selectbox("Select a Receiving Account", options=accounts)
 
-st.markdown("### Token ID to transfer")
-tokenId = st.selectbox("Choose a Token to Send", options=list(range(totalTokenSupply)))
+st.sidebar.markdown("### Token ID to transfer")
+tokenId = st.sidebar.selectbox("Choose a Token to Send", options=list(range(totalTokenSupply)))
 
-if st.button("Transfer Token"):
+if st.sidebar.button("Transfer Token"):
     safe_transfer = contract.functions.safeTransferFrom(address, receiver_address, tokenId).transact({"from":address})
     st.balloons()
-    st.write(f"Successful transfer of tokenID: {tokenId}, to receiving address: {receiver_address}, from address: {address}")
+    st.sidebar.write(f"Successful transfer of tokenID: {tokenId}, to receiving address: {receiver_address}, from address: {address}")
