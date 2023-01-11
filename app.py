@@ -63,7 +63,7 @@ def pinAppraisal(content):
 # frontend
 ################################################################################
 
-st.title("Art Registry Appraisal")
+st.title("AI NFT Minter")
 st.write("Choose an account to start")
 
 accounts = w3.eth.accounts
