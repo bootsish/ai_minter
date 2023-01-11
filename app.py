@@ -7,7 +7,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import streamlit as st
 from qualifier.utils.pinata import pinFiletoIPFS, pinJSONtoIPFS, convertDatatoJSON
-#from qualifier.utils.openai import generate_image
+from qualifier.utils.openai import generate_image, getImage
 from PIL import Image 
 load_dotenv()
 w3 = Web3(Web3.HTTPProvider(os.getenv("WEB_PROVIDER_URI")))
@@ -74,15 +74,11 @@ prompt = st.text_input("🖼 Tell me what to make for you. Click enter to show t
 
 image = "empty"
 
+# sets the api key
+openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.organization = os.getenv("OPENAI_ORG")
+
 if st.button("Generate Image"):
-    def getImage():
-        response = openai.Image.create(
-        prompt=prompt,
-        n=1,
-        size="1024x1024"
-        )
-        image_url = response['data'][0]['url']
-        return image_url
 
     imageLink = getImage()
 
