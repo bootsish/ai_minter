@@ -74,13 +74,10 @@ prompt = st.text_input("🖼 Tell me what to make for you. Click enter to show t
 
 image = "empty"
 
-# sets the api key
-openai.api_key = os.getenv("OPENAI_API_KEY")
-openai.organization = os.getenv("OPENAI_ORG")
 
 if st.button("Generate Image"):
 
-    imageLink = getImage()
+    imageLink = getImage(prompt)
 
     img_data = requests.get(imageLink).content
 
