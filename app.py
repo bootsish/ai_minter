@@ -1,11 +1,12 @@
 import os
+import requests
 import json
 from web3 import Web3
 from pathlib import Path
 from dotenv import load_dotenv
 import streamlit as st
 from qualifier.utils.pinata import pinFiletoIPFS, pinJSONtoIPFS, convertDatatoJSON
-from qualifier.utils.openai import generate_image
+from qualifier.utils.openai import generate_image, getImage
 from PIL import Image 
 load_dotenv()
 w3 = Web3(Web3.HTTPProvider(os.getenv("WEB_PROVIDER_URI")))
@@ -15,6 +16,7 @@ w3 = Web3(Web3.HTTPProvider(os.getenv("WEB_PROVIDER_URI")))
 ################################################################################
 # loading the contract
 ################################################################################
+
 @st.cache(allow_output_mutation=True)
 def load_contract():
     
@@ -73,11 +75,14 @@ prompt = st.text_input("🖼 Tell me what to make for you. Click enter to show t
 image = "empty"
 
 if st.button("Generate Image"):
-    image_url = generate_image(prompt)
-    image = st.image(image_url, width=400)
 
-    if st.button("Save Image?"):
-        ""
+    imageLink = getImage(prompt)
+
+    img_data = requests.get(imageLink).content
+
+    st.image(img_data)
+    st.write(imageLink)
+
 
 
 ################################################################################
@@ -89,9 +94,8 @@ st.markdown("## Register a New Artwork")
 name = st.text_input("Enter a name for the artwork")
 artist = st.text_input("Enter an artist name for the artwork")
 appraisalValue = st.text_input("Enter an appraisal value for the artwork")
-#file = st.file_uploader("Upload Your Art", type = ["jpg", "jpeg","png"])
-file = image
-
+file = st.file_uploader("Upload Your Art", type = ["jpg", "jpeg","png"])
+#file = image
 
 if st.button("Register Artwork"):
     JSONIPFShash, tokenJSON = pinArtWork(name, file)
@@ -107,7 +111,6 @@ if st.button("Register Artwork"):
     st.write("Please view the following links for IPFS Gateway")
     st.markdown(f"[IPFS Gateway Link](https://ipfs.io/ipfs/{JSONIPFShash})")    
     st.markdown(f"[IPFS Image Link](https://ipfs.io/ipfs/{IPFSfilehash})")
-    
     
     
     

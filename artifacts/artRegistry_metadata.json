@@ -96,6 +96,49 @@
 				"anonymous": false,
 				"inputs": [
 					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "artist",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "apprasalValue",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "tokenURI",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "tokenJSON",
+						"type": "string"
+					}
+				],
+				"name": "Register",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
 						"indexed": true,
 						"internalType": "address",
 						"name": "from",
@@ -741,10 +784,10 @@
 	},
 	"sources": {
 		"ArtRegistry.sol": {
-			"keccak256": "0xdd796f43848627827f702f1072554f90974b4d3b16d7bc9b3d134e7fdfee7fa1",
+			"keccak256": "0x10e5ea5566ab5c97d8523dba559e6cb85c863779e56bc19e0f4f6b148db2ae6b",
 			"urls": [
-				"bzz-raw://54b665d3f506f994ed4e37b465a663ea6bd640eafdb7fc60fbca8ecdc4fc2939",
-				"dweb:/ipfs/QmRUdN2TfQSGGNDHTrzvBWLHzVPgK91bn5dovRuu12YXcM"
+				"bzz-raw://d22002b61ce0c8d1e17eca98535ea4c95f6b2e3c3e958ba08600cfc7d3140b51",
+				"dweb:/ipfs/QmVqn4MtsQWLatnqNNVYvCGc3CFcj18zzeRb84FD16yx4E"
 			]
 		},
 		"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/GSN/Context.sol": {
