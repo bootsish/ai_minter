@@ -17,6 +17,22 @@ load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 openai.organization = os.getenv("OPENAI_ORG")
 
+def getImage(prompt):
+    response = openai.Image.create(
+    prompt=prompt,
+    n=1,
+    size="256x256"
+    )
+    image_url = response['data'][0]['url']
+    return image_url
+
+imageLink = getImage()
+
+img_data = requests.get(imageLink).content
+
+st.image(img_data)
+st.write(imageLink)
+
 # Dall-E API endpoint 
 # ## DALLE is openai just FYI
 DALLE_ENDPOINT = "https://api.openai.com/v1/images/generations"
@@ -58,3 +74,14 @@ def main():
 
 if __name__ == "__main__":
   main()
+
+
+
+
+
+"""
+    if st.button("Save Image?"):
+
+        with Image.new(img_data) as im:
+            im.save("./resources/", "JPEG")
+"""
