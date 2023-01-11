@@ -179,7 +179,7 @@ if st.button("Get Appraisal History"):
 ################################################################################
 # Ownership Check
 ################################################################################
-
+st.sidebar.image('resources/ai.png')
 st.sidebar.markdown("## Ownership Check")
 
 tokenId = st.sidebar.selectbox("Which token would you like to owner check?", options=list(range(totalTokenSupply)))
