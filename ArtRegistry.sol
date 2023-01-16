@@ -6,7 +6,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5
 
 contract artRegistry is ERC721Full {
 
-    constructor() public ERC721Full("ArtRegistryToken", "ART") {}
+    constructor() public ERC721Full("AIToken", "AIT") {}
 
     struct ArtWork {
         string name;

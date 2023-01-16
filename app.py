@@ -25,8 +25,8 @@ def load_contract():
     with open(Path("abi.json")) as abi:
         artwork_abi = json.load(abi)
         
-    artwork_address = os.getenv("SMART_CONTRACT_DEPLOYED_ADDRESS")
-    
+    #artwork_address = os.getenv("SMART_CONTRACT_DEPLOYED_ADDRESS")
+    artwork_address = "0x9468af5fD317f85B30DC67bf0F80d137DfE3DcdA"
     contract = w3.eth.contract(
         address=artwork_address,
         abi = artwork_abi

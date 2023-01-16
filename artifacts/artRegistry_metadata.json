@@ -784,10 +784,10 @@
 	},
 	"sources": {
 		"ArtRegistry.sol": {
-			"keccak256": "0x10e5ea5566ab5c97d8523dba559e6cb85c863779e56bc19e0f4f6b148db2ae6b",
+			"keccak256": "0x4f7d4d54338a8581a92789d1e7c3461cdfb1cc156a903829cb5fc19182fb89cb",
 			"urls": [
-				"bzz-raw://d22002b61ce0c8d1e17eca98535ea4c95f6b2e3c3e958ba08600cfc7d3140b51",
-				"dweb:/ipfs/QmVqn4MtsQWLatnqNNVYvCGc3CFcj18zzeRb84FD16yx4E"
+				"bzz-raw://0156c2150f634f331e3a204243e0277db17fbbb4b88bb97fc1861b33623641cd",
+				"dweb:/ipfs/QmQfAq6ySS9kD2CvRr4Ty3VypvQfjJez6eX9ev49g9oMVQ"
 			]
 		},
 		"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/GSN/Context.sol": {
