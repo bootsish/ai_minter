@@ -82,7 +82,6 @@ def pinAppraisal(content):
 ################################################################################
 
 st.title("Art Registry Appraisal")
-st.write("Choose an account to start")
 
 accounts = w3.eth.accounts
 
