@@ -11,9 +11,13 @@ from PIL import Image
 load_dotenv()
 from bip44 import Wallet
 from web3 import Account
-#w3 = Web3(Web3.HTTPProvider(os.getenv("WEB_PROVIDER_URI")))
+from web3 import Web3
+from web3.gas_strategies.time_based import medium_gas_price_strategy
 w3 = Web3(Web3.HTTPProvider('https://mainnet.infura.io/v3/2f67f3f2e6ea4d3d8c2273b47054588c'))
 w3.isConnected()
+#w3 = Web3(Web3.HTTPProvider(os.getenv("WEB_PROVIDER_URI")))
+
+
 
 ################################################################################
 # loads the wallet from .env mnemonics
@@ -116,11 +120,10 @@ file = st.file_uploader("Upload Your Art", type = ["jpg", "jpeg","png"])
 
 if st.button("Register Artwork"):
     JSONIPFShash, tokenJSON = pinArtWork(name, file)
-    #JSONIPFShash, tokenJSON = pinArtWork(name, image_data(imageLink, img_data))
     tokenURI = f"ipfs://{JSONIPFShash}"
     
-    IPFSfilehash = tokenJSON["image"]
-    
+    IPFSfilehash = tokenJSON["image"] 
+
     tx_hash = contract.functions.registerArtWork(address, name, artist, int(appraisalValue), tokenURI, IPFSfilehash).transact({"from":address})
     receipt = w3.eth.waitForTransactionReceipt(tx_hash)
     st.write("Receipt is ready. Here it is:")
