@@ -9,11 +9,27 @@ from qualifier.utils.pinata import pinFiletoIPFS, pinJSONtoIPFS, convertDatatoJS
 from qualifier.utils.openai import generate_image, getImage
 from PIL import Image 
 load_dotenv()
+from bip44 import Wallet
+from web3 import Account
 #w3 = Web3(Web3.HTTPProvider(os.getenv("WEB_PROVIDER_URI")))
 w3 = Web3(Web3.HTTPProvider('https://mainnet.infura.io/v3/2f67f3f2e6ea4d3d8c2273b47054588c'))
 w3.isConnected()
 
+################################################################################
+# loads the wallet from .env mnemonics
+################################################################################
 
+# Load the value of the MNEMONIC variable from the .env file
+mnemonic = os.getenv("DEV_MNEMONIC")
+
+# Creates wallet variable
+wallet = Wallet(mnemonic)
+
+# Create the public and private keys associated with a new Ethereum account
+private, public = wallet.derive_account("eth")
+
+# Create an Ethereum account by passing the private key via the Account object
+minter_account = Account.privateKeyToAccount(private)
 
 ################################################################################
 # loading the contract
@@ -70,7 +86,7 @@ st.write("Choose an account to start")
 
 accounts = w3.eth.accounts
 
-address = st.selectbox("Select an Account", options=accounts)
+address = minter_account
 
 prompt = st.text_input("🖼 Tell me what to make for you. Click enter to show the image")
 
