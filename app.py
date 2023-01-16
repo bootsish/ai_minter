@@ -9,7 +9,9 @@ from qualifier.utils.pinata import pinFiletoIPFS, pinJSONtoIPFS, convertDatatoJS
 from qualifier.utils.openai import generate_image, getImage
 from PIL import Image 
 load_dotenv()
-w3 = Web3(Web3.HTTPProvider(os.getenv("WEB_PROVIDER_URI")))
+#w3 = Web3(Web3.HTTPProvider(os.getenv("WEB_PROVIDER_URI")))
+w3 = Web3(Web3.HTTPProvider('https://mainnet.infura.io/v3/2f67f3f2e6ea4d3d8c2273b47054588c'))
+w3.isConnected()
 
 
 
