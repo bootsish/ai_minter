@@ -85,7 +85,7 @@ st.title("Art Registry Appraisal")
 
 accounts = w3.eth.accounts
 
-address = minter_account
+address = minter_account.address
 
 prompt = st.text_input("🖼 Tell me what to make for you. Click enter to show the image")
 
