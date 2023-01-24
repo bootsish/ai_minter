@@ -13,10 +13,8 @@ from bip44 import Wallet
 from web3 import Account
 from web3 import Web3
 from web3.gas_strategies.time_based import medium_gas_price_strategy
-w3 = Web3(Web3.HTTPProvider("https://mainnet.infura.io/v3/2f67f3f2e6ea4d3d8c2273b47054588c"))
+w3 = Web3(Web3.HTTPProvider(os.getenv("WEB_PROVIDER_URI")))
 w3.isConnected()
-#w3 = Web3(Web3.HTTPProvider(os.getenv("WEB_PROVIDER_URI")))
-
 
 
 ################################################################################
@@ -45,8 +43,7 @@ def load_contract():
     with open(Path("abi.json")) as abi:
         artwork_abi = json.load(abi)
         
-    #artwork_address = os.getenv("SMART_CONTRACT_DEPLOYED_ADDRESS")
-    artwork_address = "0x9468af5fD317f85B30DC67bf0F80d137DfE3DcdA"
+    artwork_address = os.getenv("SMART_CONTRACT_DEPLOYED_ADDRESS")
     contract = w3.eth.contract(
         address=artwork_address,
         abi = artwork_abi
