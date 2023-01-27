@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 import streamlit as st
 from qualifier.utils.pinata import pinFiletoIPFS, pinJSONtoIPFS, convertDatatoJSON
 from qualifier.utils.openai import generate_image, getImage
-from PIL import Image 
 load_dotenv()
 from bip44 import Wallet
 from web3 import Account
@@ -31,7 +30,7 @@ wallet = Wallet(mnemonic)
 private, public = wallet.derive_account("eth")
 
 # Create an Ethereum account by passing the private key via the Account object
-minter_account = Account.privateKeyToAccount(private)
+account = Account.privateKeyToAccount(private)
 
 ################################################################################
 # loading the contract
@@ -84,9 +83,9 @@ def pinAppraisal(content):
 
 st.title("Art Registry Appraisal")
 
-accounts = w3.eth.accounts
+#accounts = w3.eth.accounts
 
-address = minter_account.address
+minter = account.address
 
 prompt = st.text_input("🖼 Tell me what to make for you. Click enter to show the image")
 
@@ -116,15 +115,46 @@ file = st.file_uploader("Upload Your Art", type = ["jpg", "jpeg","png"])
 #file = image
 
 if st.button("Register Artwork"):
+
+    # Load the value of the MNEMONIC variable from the .env file
+    mnemonic = os.getenv("DEV_MNEMONIC")
+
+    # Creates wallet variable
+    wallet = Wallet(mnemonic)
+
+    # Create the public and private keys associated with a new Ethereum account
+    private, public = wallet.derive_account("eth")
+
+    # Create an Ethereum account by passing the private key via the Account object
+    minter = Account.privateKeyToAccount(private)
+
     JSONIPFShash, tokenJSON = pinArtWork(name, file)
     tokenURI = f"ipfs://{JSONIPFShash}"
     
     IPFSfilehash = tokenJSON["image"] 
 
-    tx_hash = contract.functions.registerArtWork(address, name, artist, int(appraisalValue), tokenURI, IPFSfilehash).transact({"from":address})
-    receipt = w3.eth.get_transaction_receipt(w3.toHex(tx_hash))
-    st.write("Receipt is ready. Here it is:")
-    st.write(dict(receipt))
+    # Set the gas price strategy
+    w3.eth.setGasPriceStrategy(medium_gas_price_strategy)
+
+    # Generates gas price
+    gas_price = w3.eth.generateGasPrice()
+
+    tx = contract.functions.registerArtWork(minter.address, name, artist, int(appraisalValue), tokenURI, IPFSfilehash).buildTransaction({
+        "from": minter.address,
+        "gas": 1000000,
+        "gasPrice": gas_price,
+        "nonce": w3.eth.getTransactionCount(minter.address),
+    })
+
+    signed_tx = minter.signTransaction(tx)
+
+    tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+
+    tx_receipt = w3.eth.waitForTransactionReceipt(tx_hash)
+
+    st.write("Transaction receipt mined:", tx_receipt)
+
+    st.balloons()
     
     st.write("Please view the following links for IPFS Gateway")
     st.markdown(f"[IPFS Gateway Link](https://ipfs.io/ipfs/{JSONIPFShash})")    
@@ -153,7 +183,7 @@ if st.button("New Appraisal"):
     
     tokenURI = f"ipfs://{appraisalIPFShash}"
     
-    tx_hash = contract.functions.newAppraisal(tokenID, int(newAppraisalValue), tokenURI, imageURI).transact({"from":address})
+    tx_hash = contract.functions.newAppraisal(tokenID, int(newAppraisalValue), tokenURI, imageURI).transact({"from":minter.address})
     receipt = w3.eth.waitForTransactionReceipt(tx_hash)
     st.write("Receipt is ready. Here it is:")
     st.write(dict(receipt))
@@ -213,7 +243,7 @@ if st.sidebar.button("Check Token Owner"):
 
 st.sidebar.markdown("## Transfer Token")
 
-receiver_address = st.sidebar.selectbox("Select a Receiving Account", options=accounts)
+receiver_address = st.sidebar.text_input("Select a Receiving Account")
 
 tokenId = st.sidebar.selectbox("Choose a Token to Send", options=list(range(totalTokenSupply)))
 
