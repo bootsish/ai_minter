@@ -11,16 +11,14 @@ from PIL import Image
 load_dotenv()
 w3 = Web3(Web3.HTTPProvider(os.getenv("WEB_PROVIDER_URI")))
 
-
-
 ################################################################################
 # loading the contract
 ################################################################################
 
-@st.cache(allow_output_mutation=True)
+@st.cache_resource
 def load_contract():
     
-    with open(Path("abi.json")) as abi:
+    with open(Path("ganache_abi.json")) as abi:
         artwork_abi = json.load(abi)
         
     artwork_address = os.getenv("SMART_CONTRACT_DEPLOYED_ADDRESS")
@@ -34,7 +32,14 @@ def load_contract():
 
 contract = load_contract()
 
+@st.cache_resource
+def load_image():
+    imageLink = getImage(prompt)
+    img_data = requests.get(imageLink).content
+    st.image(img_data)
+    st.write(imageLink)
 
+    return imageLink, img_data
 
 ################################################################################
 # pin artwork
@@ -57,8 +62,6 @@ def pinAppraisal(content):
     JSONIPFShash = pinJSONtoIPFS(JSONdata)
     return JSONIPFShash
 
-
-
 ################################################################################
 # frontend
 ################################################################################
@@ -67,23 +70,12 @@ st.title("AI NFT Minter")
 st.write("Choose an account to start")
 
 accounts = w3.eth.accounts
-
 address = st.selectbox("Select an Account", options=accounts)
-
 prompt = st.text_input("🖼 Tell me what to make for you. Click enter to show the image")
-
-image = "empty"
 
 if st.button("Generate Image"):
 
-    imageLink = getImage(prompt)
-
-    img_data = requests.get(imageLink).content
-
-    st.image(img_data)
-    st.write(imageLink)
-
-
+    imageLink, img_data = load_image()
 
 ################################################################################
 # register your art
@@ -94,12 +86,11 @@ st.markdown("## Register a New Artwork")
 name = st.text_input("Enter a name for the artwork")
 artist = st.text_input("Enter an artist name for the artwork")
 appraisalValue = st.text_input("Enter an appraisal value for the artwork")
-file = st.file_uploader("Upload Your Art", type = ["jpg", "jpeg","png"])
-#file = image
+#file = st.file_uploader("Upload Your Art", type = ["jpg", "jpeg","png"])
+file = img_data
 
 if st.button("Register Artwork"):
     JSONIPFShash, tokenJSON = pinArtWork(name, file)
-    #JSONIPFShash, tokenJSON = pinArtWork(name, image_data(imageLink, img_data))
     tokenURI = f"ipfs://{JSONIPFShash}"
     
     IPFSfilehash = tokenJSON["image"]
@@ -112,9 +103,7 @@ if st.button("Register Artwork"):
     st.write("Please view the following links for IPFS Gateway")
     st.markdown(f"[IPFS Gateway Link](https://ipfs.io/ipfs/{JSONIPFShash})")    
     st.markdown(f"[IPFS Image Link](https://ipfs.io/ipfs/{IPFSfilehash})")
-    
-    
-    
+        
 ################################################################################
 # new appraisal
 ################################################################################
@@ -140,8 +129,6 @@ if st.button("New Appraisal"):
     receipt = w3.eth.waitForTransactionReceipt(tx_hash)
     st.write("Receipt is ready. Here it is:")
     st.write(dict(receipt))
-
-
 
 ################################################################################
 # appraisal history
@@ -187,8 +174,6 @@ tokenId = st.sidebar.selectbox("Which token would you like to owner check?", opt
 if st.sidebar.button("Check Token Owner"):
     owner_check = contract.functions.ownerOf(tokenId).call()
     st.sidebar.write(f"Address: {owner_check}, is the owner of tokenID: {tokenId} at contract address: {contract.address}.")
-
-
 
 ################################################################################
 # Transfer Token
